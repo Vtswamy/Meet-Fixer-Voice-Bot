@@ -35,14 +35,3 @@ src/
 │   │   ├── templates/       (Thymeleaf HTML views)
 │   │   └── application.properties
 ```
-Configuration
-Configure environment-specific values in application.properties:
-
-properties
-Copy
-Edit
-server.port=8080
-openrouter.api.key=your_openrouter_api_key
-twilio.account.sid=your_twilio_account_sid
-twilio.auth.token=your_twilio_auth_token
-aiven.database.url=jdbc:postgresql://your-db-url
