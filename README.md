@@ -1,37 +1,144 @@
-# Voice-Driven Workflow Automation System
-## Overview
-This project implements a voice-activated automation workflow using Spring Boot and Thymeleaf. The system accepts voice input from users, transcribes it to text using the browser's speech recognition capabilities, and processes it through an n8n workflow. It integrates with OpenRouter.ai for AI-based JSON generation, Aiven for database queries, and Twilio for automated voice call confirmations.
+# Voice-Controlled Meeting Scheduler (Spring Boot + n8n)
 
-## Technologies Used
-Backend
-Spring Boot
-Thymeleaf
-Jackson (for JSON processing)
-Maven
+A voice-controlled meeting scheduling system using *Spring Boot (Thymeleaf frontend), **OpenRouter LLM API, and **n8n* for workflow automation. Users can speak into the browser, and the app transcribes speech, extracts meeting details, makes a call via Twilio, and schedules a meeting.
 
-## External Services
-Google Web Speech API (for voice-to-text)
-OpenRouter.ai (for AI-generated structured responses)
-Aiven (for cloud-hosted database access)
-Twilio API (for voice calls)
-n8n (workflow orchestration)
+---
 
-## Maven Dependencies
-1. spring-boot-starter
-2. spring-boot-starter-web
-3. spring-boot-starter-thymeleaf
-4. spring-boot-devtools
-5. spring-boot-starter-test
-6. jackson-databind
+## Features
+
+* Live voice-to-text transcription
+* Natural Language Understanding via LLaMA 3 (OpenRouter)
+* Intent parsing: Extract contact, time, and intent from spoken text
+* Twilio voice call to confirm meeting with the contact
+* Auto-scheduling via Google Calendar or other integrations
+
+---
+
+## Tech Stack
+
+### Backend
+
+* Java
+* Spring Boot
+* Thymeleaf (template engine)
+* Jackson (for JSON)
+* Maven
+
+### Workflow Automation
+
+* n8n (self-hosted with Docker)
+
+### External APIs
+
+* OpenRouter (LLaMA 3)
+* Twilio (for calling)
+* Google Calendar API (optional)
+
+---
+
+## Spring Boot Setup
+
+### Maven Dependencies (in pom.xml)
+* Maven Dependencies
+* spring-boot-starter
+* spring-boot-starter-web
+* spring-boot-starter-thymeleaf
+* spring-boot-devtools
+* spring-boot-starter-test
+* jackson-databind
+
+### Run Project
+
+bash
+mvn clean install
+mvn spring-boot:run
+
+---
+
+## Project Structure
+
 ```
-src/
-├── main/
-│   ├── java/
-│   │   └── com/yourdomain/project/
-│   │       ├── controller/
-│   │       ├── service/
-│   │       └── model/
-│   ├── resources/
-│   │   ├── templates/       (Thymeleaf HTML views)
-│   │   └── application.properties
+project-root/
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com/example/voicebot/
+│       │       ├── controller/
+│       │       │   └── IntentController.java
+│       │       ├── model/
+│       │       │   └── IntentRequest.java
+│       │       └── service/
+│       │           └── IntentParserService.java
+│       └── resources/
+│           ├── templates/
+│           │   └── index.html
+│           └── application.properties
+├── pom.xml
+
 ```
+---
+
+## n8n Workflow Configuration
+
+### Step 1: Webhook Node (Trigger)
+
+* Method: POST
+* Path: /speech-input
+* Output: { "text": "Call Sara on Monday at 3PM" }
+
+### Step 2: HTTP Request Node
+
+* Method: POST
+* URL: http://host.docker.internal:8080/intent
+* Headers: Content-Type: application/json
+* Body:
+
+json
+{
+  "text": "{{$json["text"]}}"
+}
+
+
+### Step 3: Twilio Node (Make Call)
+
+* From: Your Twilio number
+* To: Extracted contact
+* Say: "You have a meeting scheduled for {{ \$json\["datetime"] }}. Press 1 to confirm."
+
+### Step 4: MySQL Node (Store Record)
+
+* Insert intent, contact, and datetime into a table
+
+### Optional Step 5: Google Calendar Node
+
+* Schedule meeting using extracted fields
+
+---
+## Demo N8N WorkFlow
+![WhatsApp Image 2025-06-26 at 17 47 29_4a77f574](https://github.com/user-attachments/assets/ed45692a-539d-42d5-8421-f9700ed94aa1)
+
+
+---
+
+## Environment Variables
+
+Create a .env file in your root:
+
+
+OPENROUTER_API_KEY=your_openrouter_key
+TWILIO_ACCOUNT_SID=your_sid
+TWILIO_AUTH_TOKEN=your_token
+TWILIO_PHONE_NUMBER=your_twilio_number
+
+
+---
+
+## License
+
+MIT
+
+---
+
+## Author
+
+Built by \[Your Name] for portfolio and automation learning.
