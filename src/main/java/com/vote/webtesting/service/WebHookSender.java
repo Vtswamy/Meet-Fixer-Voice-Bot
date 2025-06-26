@@ -9,7 +9,7 @@ public class WebHookSender {
     private final WebClient webClient;
 
     public WebHookSender(WebClient.Builder builder) {
-        this.webClient = builder.baseUrl("http://localhost:5678").build();
+        this.webClient = builder.baseUrl("YOUR DOCKER N8N HOST LINK").build();
     }
 
     public void sendTextToN8n(String text) {
