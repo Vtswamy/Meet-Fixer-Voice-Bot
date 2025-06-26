@@ -1,4 +1,4 @@
-### Voice-Driven Workflow Automation System
+# Voice-Driven Workflow Automation System
 ## Overview
 This project implements a voice-activated automation workflow using Spring Boot and Thymeleaf. The system accepts voice input from users, transcribes it to text using the browser's speech recognition capabilities, and processes it through an n8n workflow. It integrates with OpenRouter.ai for AI-based JSON generation, Aiven for database queries, and Twilio for automated voice call confirmations.
 
@@ -23,7 +23,7 @@ n8n (workflow orchestration)
 4. spring-boot-devtools
 5. spring-boot-starter-test
 6. jackson-databind
-
+```
 src/
 ├── main/
 │   ├── java/
@@ -34,7 +34,7 @@ src/
 │   ├── resources/
 │   │   ├── templates/       (Thymeleaf HTML views)
 │   │   └── application.properties
-
+```
 Configuration
 Configure environment-specific values in application.properties:
 
