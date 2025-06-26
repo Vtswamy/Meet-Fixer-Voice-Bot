@@ -130,15 +130,8 @@ TWILIO_ACCOUNT_SID=your_sid
 TWILIO_AUTH_TOKEN=your_token
 TWILIO_PHONE_NUMBER=your_twilio_number
 
-
----
-
-## License
-
-MIT
-
 ---
 
 ## Author
 
-Built by \[Your Name] for portfolio and automation learning.
+Built by Vtswamy and SyedIrfan for portfolio and automation learning.
